@@ -1,0 +1,12 @@
+.cardContainer {
+	padding: 50px;
+	height: 490;
+	width: 800;
+	margin: auto;
+}
+
+.floating-box {
+    display: inline-block;
+    margin: 5px; 
+    float: left;
+}
