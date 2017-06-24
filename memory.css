@@ -7,12 +7,6 @@
 
 .floating-box {
     display: inline-block;
-    margin: 5px; 
-    float: left;
+    padding: 2px; 
 }
 
-.clicked {
-
-     
-
-}
