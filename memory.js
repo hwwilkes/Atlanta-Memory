@@ -1,23 +1,32 @@
 $(document).ready(function() {
 
-	var images = ["chicken.jpg", "batonbob.jpg", "clermont.jpg", "falcons.jpg", 
-	  "I85.jpg", "kroger.png",  "peach.jpg", "traffic.jpg", "varsity.jpg", "wind.jpg"];
+	var images = ["chicken.jpg", "chicken.jpg", "batonbob.jpg", "batonbob.jpg", "clermont.jpg", "clermont.jpg", 
+					"falcons.jpg", "falcons.jpg", "I85.jpg", "I85.jpg", "kroger.png", "kroger.png",  "peach.jpg", 
+					"peach.jpg", "traffic.jpg", "traffic.jpg", "varsity.jpg", "varsity.jpg", "wind.jpg", "wind.jpg"];
 	var cards = document.getElementsByClassName("cardImg");
 	var allCards = [];
+	var dealtCards = [];
 
 	//object constructor for cards
-	function CreateCard (imageName, divID) {
+	function CreateCard (imageName) {
 
 		this.imageName = imageName;
-		this.divID = divID;
+		this.divID = '';
 
 	}
 
 	for (var i = 0; i < cards.length; i++) {
 
-		var randomNum = Math.floor(Math.random() * (images.length));
-		var randomImg = images[randomNum];
-		allCards[i] = new CreateCard (randomImg, i);
+		allCards[i] = new CreateCard (images[i]);
+
+    }
+
+    for (var i = 0; i < cards.length; i++) {
+
+    	var randomNum = Math.floor(Math.random() * allCards.length);
+        allCards[randomNum].divID = i;
+        dealtCards.push(allCards[randomNum]);
+        allCards.splice(randomNum,1);
 
     }
 
@@ -25,13 +34,13 @@ $(document).ready(function() {
 
 		var imgID = parseInt($(this).attr("id"));
 
-		for (var i = 0; i < allCards.length; i++) {
+		for (var i = 0; i < dealtCards.length; i++) {
 
-			var allCardsID = allCards[i].divID;
+			var dealtCardsID = dealtCards[i].divID;
 
-			if (allCardsID === imgID) {
+			if (dealtCardsID === imgID) {
 
-				var imgName = allCards[i].imageName;
+				var imgName = dealtCards[i].imageName;
 				break;
 			}
 		}
