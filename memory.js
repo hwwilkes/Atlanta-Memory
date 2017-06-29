@@ -1,17 +1,40 @@
 $(document).ready(function() {
 
 	var images = ["chicken.jpg", "chicken.jpg", "batonbob.jpg", "batonbob.jpg", "clermont.jpg", "clermont.jpg", 
-					"falcons.jpg", "falcons.jpg", "I85.jpg", "I85.jpg", "kroger.png", "kroger.png",  "peach.jpg", 
+					"waffle.jpg", "waffle.jpg", "I85.jpg", "I85.jpg", "kroger.png", "kroger.png",  "peach.jpg", 
 					"peach.jpg", "traffic.jpg", "traffic.jpg", "varsity.jpg", "varsity.jpg", "wind.jpg", "wind.jpg"];
 	var cards = document.getElementsByClassName("cardImg");
 	var allCards = [];
 	var dealtCards = [];
+	var selected = [];
 
 	//object constructor for cards
 	function CreateCard (imageName) {
 
 		this.imageName = imageName;
 		this.divID = '';
+
+	}
+
+	//compares selected cards to see if they are a match
+	function checkMatch () {
+
+		if (selected[0].imageName === selected[1].imageName) {
+
+			return true;
+
+		} else {
+
+			return false;
+		}
+
+	}
+
+	function setImage(divID) {
+
+		var imgName = dealtCards[divID].imageName;
+		document.getElementById(divID).src = "images/" + imgName;
+		selected.push(dealtCards[divID]);
 
 	}
 
@@ -30,23 +53,24 @@ $(document).ready(function() {
 
     }
 
+
 	$(".cardImg").click (function () {
 
-		var imgID = parseInt($(this).attr("id"));
+		//If there are less than two cards selected, add class 'selected' and set image src
+		if (selected.length < 2) {
 
-		for (var i = 0; i < dealtCards.length; i++) {
+			var imgID = $(this).attr("id");
+			setImage(imgID);
 
-			var dealtCardsID = dealtCards[i].divID;
-
-			if (dealtCardsID === imgID) {
-
-				var imgName = dealtCards[i].imageName;
-				break;
-			}
 		}
 
-		document.getElementById(imgID).src = "images/" + imgName;
+		if (selected.length === 2) {
+
+			alert(checkMatch());
+
+		}
 
 	})
+
 
 });
