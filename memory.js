@@ -11,15 +11,16 @@ $(document).ready(function() {
 	//object constructor for cards
 	function CreateCard (imageName) {
 
-		this.imageName = imageName;
+		this.cardFront = imageName;
 		this.divID = '';
+		this.cardBack = '';
 
 	}
 
-	//compares selected cards to see if they are a match
+	//compares cards in selected array to see if they are a match.
 	function checkMatch () {
 
-		if (selected[0].imageName === selected[1].imageName) {
+		if (selected[0].cardFront === selected[1].cardFront) {
 
 			return true;
 
@@ -30,24 +31,28 @@ $(document).ready(function() {
 
 	}
 
+	//Sets img src of div to image in cardFront property of object.
 	function setImage(divID) {
 
-		var imgName = dealtCards[divID].imageName;
-		document.getElementById(divID).src = "images/" + imgName;
-		selected.push(dealtCards[divID]);
+		var imgName = dealtCards[divID].cardFront;
+		document.getElementById(divID).src = 'images/' + imgName;
 
 	}
 
+	//Create a card object for each card div. Set cardBack property to image name from images array.
 	for (var i = 0; i < cards.length; i++) {
 
 		allCards[i] = new CreateCard (images[i]);
 
     }
 
+    //Associate a random div to each card object and push to dealtCards array once 'dealt'. 
+    //Also, set cardBack property to current image source. 
     for (var i = 0; i < cards.length; i++) {
 
     	var randomNum = Math.floor(Math.random() * allCards.length);
         allCards[randomNum].divID = i;
+        allCards[randomNum].cardBack = document.getElementById(i).src;
         dealtCards.push(allCards[randomNum]);
         allCards.splice(randomNum,1);
 
@@ -56,17 +61,37 @@ $(document).ready(function() {
 
 	$(".cardImg").click (function () {
 
-		//If there are less than two cards selected, add class 'selected' and set image src
+		//If there are less than two cards selected, show card front and push card to selected array.
 		if (selected.length < 2) {
 
 			var imgID = $(this).attr("id");
 			setImage(imgID);
+			selected.push(dealtCards[imgID]);
 
 		}
 
+		//If two cards are selected, call checkMatch() to see if they are a match.  
+		//If yes, keep card front showing. 
+		//If no, flip them back over to show card back. 
 		if (selected.length === 2) {
 
-			alert(checkMatch());
+			//Had to wrap all of this in a setTimeout. Otherwise, checkMatch() would fire and reset image before cardBack was revealed.
+			setTimeout(function() {
+
+				var match = checkMatch();
+
+				if (!match) {
+
+					for (var i = 0; i < selected.length; i++) {
+
+						var cardBack = selected[i].cardBack;
+						document.getElementById(selected[i].divID).src = cardBack;
+					}
+				}
+
+				selected = [];
+
+			}, 1000);
 
 		}
 
