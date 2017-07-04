@@ -62,7 +62,7 @@ $(document).ready(function() {
 	$(".cardImg").click (function () {
 
 		//If there are less than two cards selected, show card front and push card to selected array.
-		if (selected.length < 2) {
+		if (selected.length < 2 && !($(this).hasClass("matched"))) {
 
 			var imgID = $(this).attr("id");
 			setImage(imgID);
@@ -87,9 +87,18 @@ $(document).ready(function() {
 						var cardBack = selected[i].cardBack;
 						document.getElementById(selected[i].divID).src = cardBack;
 					}
+
+				} else {
+
+					for (var i = 0; i < selected.length; i++) {
+
+						var matchedID = selected[i].divID;
+						$("#"+matchedID).addClass("matched");
+					}
+
 				}
 
-				selected = [];
+			selected = [];
 
 			}, 1000);
 
