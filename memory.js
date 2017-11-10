@@ -13,7 +13,6 @@ $(document).ready(function() {
 
 		this.cardFront = imageName;
 		this.divID = '';
-		this.cardBack = '';
 
 	}
 
@@ -39,7 +38,7 @@ $(document).ready(function() {
 
 	}
 
-	//Create a card object for each card div. Set cardBack property to image name from images array.
+	//Create a card object for each card div. Set cardFront property to image name from images array.
 	for (var i = 0; i < cards.length; i++) {
 
 		allCards[i] = new CreateCard (images[i]);
